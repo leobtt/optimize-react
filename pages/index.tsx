@@ -1,11 +1,16 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
+import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from 'react'
 import { SearchResult } from '../Components/SearchResults'
+
+type Results = {
+  totalPrice: string
+  data: any[]
+}
 
 const Home: NextPage = () => {
   const [search, setSearch] = useState('')
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState<Results>({ totalPrice: '', data: [] })
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
@@ -19,7 +24,25 @@ const Home: NextPage = () => {
     const response = await fetch(`http://localhost:3333/products?q=${search}`)
     const data = await response.json()
 
-    setResults(data)
+    const totalPrice = data.reduce(
+      (acc: number, product: { price: number }): number => (acc += product.price),
+      0
+    )
+
+    const formatter = new Intl.NumberFormat('pt-br', { style: 'currency', currency: 'BRL' })
+
+    const products = data.map(
+      (product: { id: number; title: string; price: number; priceFormatted: string }) => {
+        return {
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          priceFormatted: formatter.format(product.price),
+        }
+      }
+    )
+
+    setResults({ data: products, totalPrice: formatter.format(totalPrice) })
   }
 
   const addToWishlist = useCallback((id: number) => {
@@ -39,7 +62,11 @@ const Home: NextPage = () => {
         </form>
       </div>
 
-      <SearchResult results={results} onAddToWishlist={addToWishlist} />
+      <SearchResult
+        results={results.data}
+        totalPrice={results.totalPrice}
+        onAddToWishlist={addToWishlist}
+      />
     </>
   )
 }
