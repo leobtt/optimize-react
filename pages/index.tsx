@@ -1,5 +1,6 @@
 import type { NextPage } from 'next'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import Head from 'next/head'
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 import { SearchResult } from '../Components/SearchResults'
 
 const Home: NextPage = () => {
@@ -21,16 +22,25 @@ const Home: NextPage = () => {
     setResults(data)
   }
 
-  return (
-    <div>
-      <h1>Search</h1>
-      <form onSubmit={handleSearch}>
-        <input type="text" value={search} onChange={handleChange} />
-        <button type="submit">Buscar</button>
-      </form>
+  const addToWishlist = useCallback((id: number) => {
+    console.log(id)
+  }, [])
 
-      <SearchResult results={results} />
-    </div>
+  return (
+    <>
+      <Head>
+        <script src="http://localhost:8097"></script>
+      </Head>
+      <div>
+        <h1>Search</h1>
+        <form onSubmit={handleSearch}>
+          <input type="text" value={search} onChange={handleChange} />
+          <button type="submit">Buscar</button>
+        </form>
+      </div>
+
+      <SearchResult results={results} onAddToWishlist={addToWishlist} />
+    </>
   )
 }
 
