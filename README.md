@@ -2,8 +2,6 @@
 
 ## 💻 Quando o React realiza a renderização do componente
 
----
-
 ### Pai para filho
 
 ```tsx
@@ -32,8 +30,6 @@ function Component() {
 
 ## ▶ Fluxo de renderização
 
----
-
 1. Gerar uma nova versão do compnente que precisa ser renderizado.
 2. Compara essa nova versão com a versão anterior já salva na página.
 3. Se houver alguma alteração, o React renderiza essa nova versão em tela.
@@ -41,8 +37,6 @@ function Component() {
 Com o reconcilation do React ele consegue recalcular quais são as diferenças (Componente, propriedades, hooks)
 
 ## ⏹ React.memo
-
----
 
 Faz um shallow compare (comparação rasa)
 comparando a igualdade referencial
@@ -56,8 +50,6 @@ comparando a igualdade referencial
 
 ## 📷 useMemo
 
----
-
 O useMemo guarda o valor de retorno na memória para que a função não calcule algo que não tenha necessidade
 
 ### Quando devo utilizar o React.useMemo?
@@ -67,19 +59,13 @@ O useMemo guarda o valor de retorno na memória para que a função não calcule
 
 ## 📄 useCallback
 
----
-
 Diferente do useMemo o useCallback memoriza uma função, utilizado para evitar que uma função crie um novo espaço na memória
 
 ## ✏️ Formatação de dados
 
----
-
 Já temos que trazer os dados formatados para os outros componentes e não formatar quando a informação chegar no componente. Realizando esse processos na hora que requisitamos os dados evitamos que tenhamos que utilizar o useMemo | useCallback em alguma parte do código.
 
 ## 🃏 Dynamic import - Code-splitting
-
----
 
 Tem o poder de importar alguma funcionalidade somente no momento que a funcionalidade será utilizada.
 
@@ -122,8 +108,6 @@ async function algumaFunc() {
 
 ## 🔄 Virtualização
 
----
-
 ```tsx
 import {
   List,
@@ -158,7 +142,5 @@ const rowRender: ListRowRenderer = ({ index, key, style }) => {
 ````
 
 ## 🔧 Bundle Amalyzer
-
----
 
 Analisar e ver as depêndencias e o tanto que elas estão empactando no código final do nosso app
